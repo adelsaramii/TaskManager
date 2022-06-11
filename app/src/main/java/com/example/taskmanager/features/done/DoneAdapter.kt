@@ -1,4 +1,4 @@
-package com.example.taskmanager.features.toDo
+package com.example.taskmanager.features.done
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,9 +12,9 @@ import com.example.taskmanager.R
 import com.example.taskmanager.di.MyApp
 import com.example.taskmanager.model.local.TaskModel
 
-class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEvent: ToDoEvent , private val picasso: MyApp.PicassoLoader) : RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder>() {
+class DoneAdapter(private val data : ArrayList<TaskModel>, private val doneEvent: DoneEvent, private val picasso: MyApp.PicassoLoader) : RecyclerView.Adapter<DoneAdapter.DoneViewHolder>() {
 
-    inner class ToDoViewHolder(itemView: View, private val context: Context) :
+    inner class DoneViewHolder(itemView: View, private val context: Context) :
         RecyclerView.ViewHolder(itemView) {
 
         private val image = itemView.findViewById<ImageView>(R.id.image)
@@ -22,7 +22,6 @@ class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEven
         private val description = itemView.findViewById<TextView>(R.id.description)
         private val date = itemView.findViewById<TextView>(R.id.date)
         private val time = itemView.findViewById<TextView>(R.id.time)
-        private val done = itemView.findViewById<Button>(R.id.done)
 
         fun bindData(position: Int) {
 
@@ -33,16 +32,12 @@ class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEven
 
             picasso.loadImage(data[position].url  , image)
 
-            done.setOnClickListener {
-                toDoEvent.onDoneClick(data[position])
-            }
-
             itemView.setOnClickListener {
-                toDoEvent.onClick(data[position])
+                doneEvent.onClick(data[position])
             }
 
             itemView.setOnLongClickListener {
-                toDoEvent.onLongClick(data[position])
+                doneEvent.onLongClick(data[position])
                 true
             }
 
@@ -50,12 +45,12 @@ class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEven
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToDoViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_todo, parent, false)
-        return ToDoViewHolder(view, parent.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DoneViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_done, parent, false)
+        return DoneViewHolder(view, parent.context)
     }
 
-    override fun onBindViewHolder(holder: ToDoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DoneViewHolder, position: Int) {
         holder.bindData(position)
     }
 
@@ -92,8 +87,7 @@ class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEven
 
     }
 
-    interface ToDoEvent{
-        fun onDoneClick(task: TaskModel)
+    interface DoneEvent{
         fun onClick(task: TaskModel)
         fun onLongClick(task: TaskModel)
     }

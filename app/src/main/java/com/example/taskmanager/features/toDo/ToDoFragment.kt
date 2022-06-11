@@ -40,6 +40,10 @@ class ToDoFragment : Fragment() , ToDoAdapter.ToDoEvent{
         TODO("Not yet implemented")
     }
 
+    override fun onClick(task: TaskModel) {
+        TODO("Not yet implemented")
+    }
+
     override fun onLongClick(task: TaskModel) {
         TODO("Not yet implemented")
     }

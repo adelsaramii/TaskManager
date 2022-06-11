@@ -11,5 +11,6 @@ data class TaskModel(
     val description: String,
     val url: String,
     val date: String,
-    val time: String
+    val time: String,
+    val state: String = "todo"
 )
