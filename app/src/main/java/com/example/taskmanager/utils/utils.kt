@@ -1,6 +1,6 @@
 package com.example.taskmanager.utils
 
-import com.example.taskmanager.model.TaskModel
+import com.example.taskmanager.model.local.TaskModel
 import com.google.gson.JsonObject
 
 fun taskToJsonObject(task: TaskModel) :JsonObject {

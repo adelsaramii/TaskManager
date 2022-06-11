@@ -1,4 +1,4 @@
-package com.example.taskmanager.model
+package com.example.taskmanager.model.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "taskTable")
 data class TaskModel(
     @PrimaryKey(autoGenerate = true)
-    var userID: Int = 0,
+    var id: Int = 0,
     val title: String,
     val description: String,
     val url: String

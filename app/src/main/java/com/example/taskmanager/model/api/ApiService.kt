@@ -1,6 +1,6 @@
 package com.example.taskmanager.model.api
 
-import com.example.taskmanager.model.TaskModel
+import com.example.taskmanager.model.local.TaskModel
 import com.google.gson.JsonObject
 import retrofit2.http.*
 
