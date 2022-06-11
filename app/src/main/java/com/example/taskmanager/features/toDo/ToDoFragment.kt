@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.databinding.FragmentToDoBinding
@@ -36,16 +37,27 @@ class ToDoFragment : Fragment() , ToDoAdapter.ToDoEvent{
         binding.recyclerToDo.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
     }
 
-    override fun onDoneClick(task: TaskModel) {
-        TODO("Not yet implemented")
+    override fun onDoneClick(task: TaskModel , position:Int) {
+
+        lifecycleScope.launchWhenCreated{
+            mainViewModel.updateTask(task)
+            adapter.updateTask(task , position)
+        }
     }
 
-    override fun onClick(task: TaskModel) {
-        TODO("Not yet implemented")
+    override fun onClick(task: TaskModel , position:Int) {
+
+        lifecycleScope.launchWhenCreated{
+            mainViewModel.updateTask(task)
+            adapter.updateTask(task , position)
+        }
     }
 
     override fun onLongClick(task: TaskModel) {
-        TODO("Not yet implemented")
+
+        lifecycleScope.launchWhenCreated{
+            mainViewModel.deleteTask(task)
+        }
     }
 
 }

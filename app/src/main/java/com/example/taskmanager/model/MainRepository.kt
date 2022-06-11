@@ -24,7 +24,7 @@ class MainRepository(
 
     suspend fun updateTask(task: TaskModel) {
         apiService.updateTask(task.id, taskToJsonObject(task))
-        taskDao.updateTask(task.id, task.title, task.description, task.url)
+        taskDao.updateTask(task.id, task.title, task.description, task.url , task.date , task.time , task.state)
     }
 
     suspend fun deleteTask(task: TaskModel) {

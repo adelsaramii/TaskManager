@@ -34,11 +34,11 @@ class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEven
             picasso.loadImage(data[position].url  , image)
 
             done.setOnClickListener {
-                toDoEvent.onDoneClick(data[position])
+                toDoEvent.onDoneClick(data[position] , position)
             }
 
             itemView.setOnClickListener {
-                toDoEvent.onClick(data[position])
+                toDoEvent.onClick(data[position] , position)
             }
 
             itemView.setOnLongClickListener {
@@ -93,8 +93,8 @@ class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEven
     }
 
     interface ToDoEvent{
-        fun onDoneClick(task: TaskModel)
-        fun onClick(task: TaskModel)
+        fun onDoneClick(task: TaskModel , position: Int)
+        fun onClick(task: TaskModel , position: Int)
         fun onLongClick(task: TaskModel)
     }
 
