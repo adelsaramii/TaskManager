@@ -2,10 +2,15 @@ package com.example.taskmanager.di
 
 import android.app.Application
 import android.widget.ImageView
+import androidx.room.Room
 import com.example.taskmanager.features.MainViewModel
-import com.example.taskmanager.model.ApiService
-import com.example.taskmanager.model.BASE_URL
+import com.example.taskmanager.model.MainRepository
+import com.example.taskmanager.model.local.MyDatabase
+import com.example.taskmanager.model.api.ApiService
+import com.example.taskmanager.model.api.BASE_URL
+import com.example.taskmanager.model.local.TaskDao
 import com.squareup.picasso.Picasso
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.GlobalContext.startKoin
@@ -23,6 +28,9 @@ class MyApp : Application() {
             single { provideRetrofit() }
             single { provideNetworkApi(get()) }
             single<ImageLoaderService> { PicassoLoader() }
+            single { provideDataBase(androidApplication()) }
+            single { provideDao(get()) }
+            single { provideRepository(get() , get()) }
 
             viewModel { MainViewModel(get()) }
 
@@ -33,6 +41,10 @@ class MyApp : Application() {
             modules(myModules)
         }
 
+    }
+
+    private fun provideRepository(apiService: ApiService, taskDao: TaskDao) : MainRepository {
+        return MainRepository(apiService , taskDao)
     }
 
     private fun provideRetrofit(): Retrofit {
@@ -64,4 +76,18 @@ class MyApp : Application() {
 
         }
     }
+
+    private fun provideDataBase(application: Application): MyDatabase {
+        return Room.databaseBuilder(
+            this.applicationContext,
+            MyDatabase::class.java,
+            "myDatabase.db"
+        )
+            .build()
+    }
+
+    private fun provideDao(dataBase: MyDatabase): TaskDao {
+        return dataBase.taskDao
+    }
+
 }

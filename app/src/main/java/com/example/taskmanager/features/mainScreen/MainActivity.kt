@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.taskmanager.databinding.ActivityMainBinding
 import com.example.taskmanager.features.MainViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import com.squareup.picasso.Picasso
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
