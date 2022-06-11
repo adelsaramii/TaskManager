@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setViewPager()
 
-
-
     }
 
     private fun setViewPager(){

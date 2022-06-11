@@ -9,6 +9,9 @@ fun taskToJsonObject(task: TaskModel) :JsonObject {
     jsonObject.addProperty("title", task.title)
     jsonObject.addProperty("description", task.description)
     jsonObject.addProperty("url", task.url)
+    jsonObject.addProperty("date", task.date)
+    jsonObject.addProperty("time", task.time)
+
     return jsonObject
 
 }

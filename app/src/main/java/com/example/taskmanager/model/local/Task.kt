@@ -9,5 +9,7 @@ data class TaskModel(
     var id: Int = 0,
     val title: String,
     val description: String,
-    val url: String
+    val url: String,
+    val date: String,
+    val time: String
 )

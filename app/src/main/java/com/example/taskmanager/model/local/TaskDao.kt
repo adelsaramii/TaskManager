@@ -10,8 +10,8 @@ interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addTask(addTask: TaskModel)
 
-    @Query("UPDATE taskTable SET title =:updateTitle, description=:updateDescription , url=:updateUrl where id=:id")
-    fun updateTask(id: Int, updateTitle: String, updateDescription: String , updateUrl:String)
+    @Query("UPDATE taskTable SET title =:updateTitle, description=:updateDescription , url=:updateUrl , date=:updateDate , time=:updateTime where id=:id")
+    fun updateTask(id: Int, updateTitle: String, updateDescription: String , updateUrl:String ,  updateDate:String, updateTime:String)
 
     @Delete
     fun deleteTask(deleteTask: TaskModel)
