@@ -1,2 +1,8 @@
 # TaskManager
-Simple Task Manager
+a simple task manager with:
+- kotlin
+- mvvm
+- corountines
+- koin
+- retrofit
+- room
