@@ -6,17 +6,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.taskmanager.databinding.ActivityMainBinding
 import com.example.taskmanager.features.MainViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    lateinit var mainViewModel: MainViewModel
+    val mainViewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         setViewPager()
 
 
