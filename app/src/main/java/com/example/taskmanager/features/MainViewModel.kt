@@ -1,5 +1,6 @@
 package com.example.taskmanager.features
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskmanager.model.MainRepository
@@ -15,7 +16,7 @@ class MainViewModel(private val mainRepository: MainRepositoryInterface) : ViewM
         }
     }
 
-    fun getAllTasks() :List<TaskModel> {
+    fun getAllTasks() : LiveData<List<TaskModel>> {
         return mainRepository.getAllTasks()
     }
 

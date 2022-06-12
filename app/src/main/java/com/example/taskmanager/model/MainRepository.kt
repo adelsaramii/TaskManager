@@ -1,5 +1,6 @@
 package com.example.taskmanager.model
 
+import androidx.lifecycle.LiveData
 import com.example.taskmanager.model.api.ApiService
 import com.example.taskmanager.model.local.TaskDao
 import com.example.taskmanager.model.local.TaskModel
@@ -9,12 +10,13 @@ class MainRepository(
     private val apiService: ApiService,
     private val taskDao: TaskDao
 ) : MainRepositoryInterface {
-    override fun getAllTasks(): List<TaskModel> {
+    override fun getAllTasks(): LiveData<List<TaskModel>> {
         return taskDao.getAllTask()
     }
 
     override suspend fun refreshTasks() {
-//        apiService.getAllTask()
+//        taskDao.deleteAllTask()
+//        taskDao.addAll(apiService.getAllTask())
     }
 
     override suspend fun insertTask(task: TaskModel) {

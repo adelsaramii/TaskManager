@@ -85,12 +85,10 @@ class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEven
 
     }
 
-    fun setTask(newListTask :ArrayList<TaskModel>) {
-
-        data.clear()
-        data.addAll( newListTask )
+    fun refreshData(data: ArrayList<TaskModel>) {
+        this.data.clear()
+        this.data.addAll(data)
         notifyDataSetChanged()
-
     }
 
     interface ToDoEvent{

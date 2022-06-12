@@ -1,11 +1,12 @@
 package com.example.taskmanager.model.local
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface TaskDao {
     @Query("select * from taskTable")
-    fun getAllTask(): List<TaskModel>
+    fun getAllTask(): LiveData<List<TaskModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addTask(addTask: TaskModel)
@@ -18,4 +19,7 @@ interface TaskDao {
 
     @Query("Delete From taskTable")
     fun deleteAllTask()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addAll(tasks : List<TaskModel>)
 }
