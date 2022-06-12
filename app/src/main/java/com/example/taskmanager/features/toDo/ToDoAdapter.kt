@@ -12,7 +12,7 @@ import com.example.taskmanager.R
 import com.example.taskmanager.di.MyApp
 import com.example.taskmanager.model.local.TaskModel
 
-class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEvent: ToDoEvent , private val picasso: MyApp.PicassoLoader) : RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder>() {
+class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEvent: ToDoEvent , private val picasso: MyApp.ImageLoaderService) : RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder>() {
 
     inner class ToDoViewHolder(itemView: View, private val context: Context) :
         RecyclerView.ViewHolder(itemView) {
@@ -31,9 +31,10 @@ class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEven
             date.text = data[position].date
             time.text = data[position].time
 
-            picasso.loadImage(data[position].url  , image)
+            picasso.loadImage("http://private-app-key.ravanfix.com/app/apphelper/uploads/" + data[position].url  , image)
 
             done.setOnClickListener {
+                data[position].state = "done"
                 toDoEvent.onDoneClick(data[position] , position)
             }
 

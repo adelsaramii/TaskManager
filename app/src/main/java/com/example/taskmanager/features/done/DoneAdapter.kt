@@ -12,7 +12,7 @@ import com.example.taskmanager.R
 import com.example.taskmanager.di.MyApp
 import com.example.taskmanager.model.local.TaskModel
 
-class DoneAdapter(private val data : ArrayList<TaskModel>, private val doneEvent: DoneEvent, private val picasso: MyApp.PicassoLoader) : RecyclerView.Adapter<DoneAdapter.DoneViewHolder>() {
+class DoneAdapter(private val data : ArrayList<TaskModel>, private val doneEvent: DoneEvent, private val picasso: MyApp.ImageLoaderService) : RecyclerView.Adapter<DoneAdapter.DoneViewHolder>() {
 
     inner class DoneViewHolder(itemView: View, private val context: Context) :
         RecyclerView.ViewHolder(itemView) {
@@ -30,11 +30,7 @@ class DoneAdapter(private val data : ArrayList<TaskModel>, private val doneEvent
             date.text = data[position].date
             time.text = data[position].time
 
-            picasso.loadImage(data[position].url  , image)
-
-            itemView.setOnClickListener {
-                doneEvent.onClick(data[position])
-            }
+            picasso.loadImage("http://private-app-key.ravanfix.com/app/apphelper/uploads/" + data[position].url  , image)
 
             itemView.setOnLongClickListener {
                 doneEvent.onLongClick(data[position])
@@ -88,7 +84,6 @@ class DoneAdapter(private val data : ArrayList<TaskModel>, private val doneEvent
     }
 
     interface DoneEvent{
-        fun onClick(task: TaskModel)
         fun onLongClick(task: TaskModel)
     }
 

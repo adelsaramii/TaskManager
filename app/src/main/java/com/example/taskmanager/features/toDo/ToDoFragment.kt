@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,7 @@ class ToDoFragment : Fragment() , ToDoAdapter.ToDoEvent{
     lateinit var binding: FragmentToDoBinding
     private val mainViewModel by sharedViewModel<MainViewModel>()
     private lateinit var adapter: ToDoAdapter
-    private val picasso : MyApp.PicassoLoader by inject()
+    private val picasso : MyApp.ImageLoaderService by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentToDoBinding.inflate(layoutInflater , container , false)
@@ -30,9 +31,17 @@ class ToDoFragment : Fragment() , ToDoAdapter.ToDoEvent{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val data = mainViewModel.getAllTasks()
 
-        adapter = ToDoAdapter(data as ArrayList<TaskModel>, this , picasso)
+        val data :ArrayList<TaskModel> = mainViewModel.getAllTasks() as ArrayList<TaskModel>
+        val dataHelper:ArrayList<TaskModel> = data.clone() as ArrayList<TaskModel>
+        dataHelper.clear()
+        data.forEach {
+            if(it.state.equals("todo")){
+                dataHelper.add(it)
+            }
+        }
+
+        adapter = ToDoAdapter(dataHelper, this , picasso)
         binding.recyclerToDo.adapter = adapter
         binding.recyclerToDo.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
     }
@@ -46,7 +55,6 @@ class ToDoFragment : Fragment() , ToDoAdapter.ToDoEvent{
     }
 
     override fun onClick(task: TaskModel , position:Int) {
-
         lifecycleScope.launchWhenCreated{
             mainViewModel.updateTask(task)
             adapter.updateTask(task , position)
@@ -54,7 +62,6 @@ class ToDoFragment : Fragment() , ToDoAdapter.ToDoEvent{
     }
 
     override fun onLongClick(task: TaskModel) {
-
         lifecycleScope.launchWhenCreated{
             mainViewModel.deleteTask(task)
         }

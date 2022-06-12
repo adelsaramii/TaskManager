@@ -8,32 +8,32 @@ import com.example.taskmanager.utils.taskToJsonObject
 class MainRepository(
     private val apiService: ApiService,
     private val taskDao: TaskDao
-) {
-    fun getAllTasks(): List<TaskModel> {
+) : MainRepositoryInterface {
+    override fun getAllTasks(): List<TaskModel> {
         return taskDao.getAllTask()
     }
 
-    suspend fun refreshTasks() {
-        apiService.getAllTask()
+    override suspend fun refreshTasks() {
+//        apiService.getAllTask()
     }
 
-    suspend fun insertTask(task: TaskModel) {
-        apiService.insertTask(taskToJsonObject(task))
+    override suspend fun insertTask(task: TaskModel) {
+//        apiService.insertTask(taskToJsonObject(task))
         taskDao.addTask(task)
     }
 
-    suspend fun updateTask(task: TaskModel) {
-        apiService.updateTask(task.id, taskToJsonObject(task))
+    override suspend fun updateTask(task: TaskModel) {
+//        apiService.updateTask(task.id, taskToJsonObject(task))
         taskDao.updateTask(task.id, task.title, task.description, task.url , task.date , task.time , task.state)
     }
 
-    suspend fun deleteTask(task: TaskModel) {
-        apiService.deleteTask(task.id)
+    override suspend fun deleteTask(task: TaskModel) {
+//        apiService.deleteTask(task.id)
         taskDao.deleteTask(task)
     }
 
-    suspend fun deleteAllTasks() {
-        apiService.deleteAllTask()
+    override suspend fun deleteAllTasks() {
+//        apiService.deleteAllTask()
         taskDao.deleteAllTask()
     }
 

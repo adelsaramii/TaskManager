@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey
 data class TaskModel(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
-    val title: String,
-    val description: String,
-    val url: String,
-    val date: String,
-    val time: String,
-    val state: String = "todo"
+    var title: String = "",
+    var description: String = "",
+    var url: String = "",
+    var date: String = "",
+    var time: String = "",
+    var state: String = "todo"
 )

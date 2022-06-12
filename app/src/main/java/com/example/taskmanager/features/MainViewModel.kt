@@ -3,10 +3,11 @@ package com.example.taskmanager.features
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskmanager.model.MainRepository
+import com.example.taskmanager.model.MainRepositoryInterface
 import com.example.taskmanager.model.local.TaskModel
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
+class MainViewModel(private val mainRepository: MainRepositoryInterface) : ViewModel() {
 
         init {
         viewModelScope.launch {

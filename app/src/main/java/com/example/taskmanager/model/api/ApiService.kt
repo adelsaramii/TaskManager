@@ -4,11 +4,9 @@ import com.example.taskmanager.model.local.TaskModel
 import com.google.gson.JsonObject
 import retrofit2.http.*
 
-const val BASE_URL = "http://192.168.1.4:8080"
-
 interface ApiService {
 
-    @GET("/task")
+    @GET("/get_questions.php")
     suspend fun getAllTask(): List<TaskModel>
 
     @POST("/task")

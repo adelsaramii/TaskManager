@@ -5,9 +5,9 @@ import android.widget.ImageView
 import androidx.room.Room
 import com.example.taskmanager.features.MainViewModel
 import com.example.taskmanager.model.MainRepository
+import com.example.taskmanager.model.MainRepositoryInterface
 import com.example.taskmanager.model.local.MyDatabase
 import com.example.taskmanager.model.api.ApiService
-import com.example.taskmanager.model.api.BASE_URL
 import com.example.taskmanager.model.local.TaskDao
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.koin.androidApplication
@@ -17,6 +17,7 @@ import org.koin.core.context.GlobalContext.startKoin
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 class MyApp : Application() {
 
@@ -25,12 +26,11 @@ class MyApp : Application() {
 
         val myModules = module {
 
-            single { provideRetrofit() }
-            single { provideNetworkApi(get()) }
             single<ImageLoaderService> { PicassoLoader() }
+            single { provideApi()}
             single { provideDataBase(androidApplication()) }
             single { provideDao(get()) }
-            single { provideRepository(get() , get()) }
+            single<MainRepositoryInterface> { provideRepository(get() , get()) }
 
             viewModel { MainViewModel(get()) }
 
@@ -47,18 +47,12 @@ class MyApp : Application() {
         return MainRepository(apiService , taskDao)
     }
 
-    private fun provideRetrofit(): Retrofit {
-
-        return Retrofit
-            .Builder()
-            .baseUrl(BASE_URL)
+    private fun provideApi(): ApiService{
+        return Retrofit.Builder()
+            .baseUrl("http://private-app-key.ravanfix.com/app/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
-    }
-
-    private fun provideNetworkApi(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
+            .create(ApiService::class.java)
     }
 
     interface ImageLoaderService {
@@ -83,6 +77,7 @@ class MyApp : Application() {
             MyDatabase::class.java,
             "myDatabase.db"
         )
+            .allowMainThreadQueries()
             .build()
     }
 
