@@ -1,8 +1,11 @@
 # TaskManager
 a simple task manager with:
-- kotlin
-- mvvm
-- corountines
-- koin
-- retrofit
-- room
+- Kotlin
+- Koin
+- Mvvm
+- Repository Pattern
+- Shared viewModel
+- Corountines
+- LiveData
+- Retrofit
+- Room
