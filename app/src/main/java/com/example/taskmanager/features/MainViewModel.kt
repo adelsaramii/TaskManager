@@ -3,20 +3,19 @@ package com.example.taskmanager.features
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskmanager.model.MainRepository
 import com.example.taskmanager.model.MainRepositoryInterface
 import com.example.taskmanager.model.local.TaskModel
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val mainRepository: MainRepositoryInterface) : ViewModel() {
 
-        init {
+    init {
         viewModelScope.launch {
             mainRepository.refreshTasks()
         }
     }
 
-    fun getAllTasks() : LiveData<List<TaskModel>> {
+    fun getAllTasks(): LiveData<List<TaskModel>> {
         return mainRepository.getAllTasks()
     }
 

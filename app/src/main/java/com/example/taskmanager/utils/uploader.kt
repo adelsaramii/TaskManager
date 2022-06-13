@@ -15,27 +15,20 @@ import java.io.File
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 
-class UploadUtility(activity: Activity) {
+class UploadUtility(private var activity: Activity) {
 
-    var activity = activity;
+    //CLASS FOR UPLOAD IMAGES TO SERVER
+
     var dialog: ProgressDialog? = null
     var serverURL: String = "http://private-app-key.ravanfix.com/app/apphelper/upload.php"
-    var serverUploadDirectoryPath: String =
-        "http://private-app-key.ravanfix.com/app/apphelper/data/"
-    val client = OkHttpClient()
-    var Url: String = ""
-
-    fun uploadFile(sourceFilePath: String, uploadedFileName: String? = null) {
-        uploadFile(File(sourceFilePath), uploadedFileName)
-    }
+    private val client = OkHttpClient()
+    private var url = ""
 
     fun uploadFile(sourceFileUri: Uri, uploadedFileName: String? = null) :String{
         val pathFromUri = URIPathHelper().getPath(activity, sourceFileUri)
         return uploadFile(File(pathFromUri), uploadedFileName)
-
     }
-
-    fun uploadFile(sourceFile: File, uploadedFileName: String? = null) :String{
+    private fun uploadFile(sourceFile: File, uploadedFileName: String? = null) :String{
         val mimeType = getMimeType(sourceFile);
         if (mimeType == null) {
             Log.e("file error", "Not able to get mime type")
@@ -58,22 +51,20 @@ class UploadUtility(activity: Activity) {
             val response: Response = client.newCall(request).execute()
 
             if (response.isSuccessful) {
-                Url = fileName
+                url = fileName
                 toggleProgressDialog(false)
-                return Url
+                return url
             } else {
                 toggleProgressDialog(false)
-                return Url
+                return url
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
             toggleProgressDialog(false)
-            return Url
+            return url
         }
     }
-
-    // url = file path or whatever suitable URL you want.
-    fun getMimeType(file: File): String? {
+    private fun getMimeType(file: File): String? {
         var type: String? = null
         val extension = MimeTypeMap.getFileExtensionFromUrl(file.path)
         if (extension != null) {
@@ -81,14 +72,7 @@ class UploadUtility(activity: Activity) {
         }
         return type
     }
-
-    fun showToast(message: String) {
-        activity.runOnUiThread {
-            Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
-        }
-    }
-
-    fun toggleProgressDialog(show: Boolean) {
+    private fun toggleProgressDialog(show: Boolean) {
         activity.runOnUiThread {
             if (show) {
                 dialog = ProgressDialog.show(activity, "", "Uploading file...", true);

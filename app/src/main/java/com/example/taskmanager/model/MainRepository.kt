@@ -10,32 +10,33 @@ class MainRepository(
     private val apiService: ApiService,
     private val taskDao: TaskDao
 ) : MainRepositoryInterface {
+
     override fun getAllTasks(): LiveData<List<TaskModel>> {
         return taskDao.getAllTask()
     }
 
     override suspend fun refreshTasks() {
-//        taskDao.deleteAllTask()
-//        taskDao.addAll(apiService.getAllTask())
+        taskDao.deleteAllTask()
+        taskDao.addAll(apiService.getAllTask())
     }
 
     override suspend fun insertTask(task: TaskModel) {
-//        apiService.insertTask(taskToJsonObject(task))
         taskDao.addTask(task)
+        apiService.insertTask(taskToJsonObject(taskDao.getTask(task.title , task.description , task.date , task.time , task.state , task.url)))
     }
 
     override suspend fun updateTask(task: TaskModel) {
-//        apiService.updateTask(task.id, taskToJsonObject(task))
-        taskDao.updateTask(task.id, task.title, task.description, task.url , task.date , task.time , task.state)
+        apiService.updateTask(taskToJsonObject(task))
+        taskDao.updateTask(task)
     }
 
     override suspend fun deleteTask(task: TaskModel) {
-//        apiService.deleteTask(task.id)
+        apiService.deleteTask(task.id)
         taskDao.deleteTask(task)
     }
 
     override suspend fun deleteAllTasks() {
-//        apiService.deleteAllTask()
+        apiService.deleteAllTask()
         taskDao.deleteAllTask()
     }
 

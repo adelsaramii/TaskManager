@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private lateinit var dialogBinding: ItemAddBinding
     private val mainViewModel by viewModel<MainViewModel>()
-    var newTask: TaskModel = TaskModel(0)
+    var newTask: TaskModel = TaskModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         onClick()
     }
 
+    //UI
     private fun onClick(){
         binding.deleteAll.setOnClickListener {
             lifecycleScope.launchWhenCreated {
@@ -84,6 +85,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //ADD
     private fun dialog() {
 
         val dialog = AlertDialog.Builder(this).create()
@@ -146,9 +148,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         dialogBinding.add.setOnClickListener {
-            if (dialogBinding.title.text.equals("")) {
+            if (dialogBinding.title.text.toString().equals("")) {
                 dialogBinding.title.error = "enter title"
-            }else if(dialogBinding.description.text.equals("")) {
+            }else if(dialogBinding.description.text.toString().equals("")) {
                 dialogBinding.description.error = "enter description"
             }else if(newTask.date.equals("")) {
                 Toast.makeText(this , "set a time" , Toast.LENGTH_SHORT).show()
@@ -177,19 +179,21 @@ class MainActivity : AppCompatActivity() {
                 }
                 if (newTask.url.equals("")){
                     Toast.makeText(this@MainActivity , "UPLOAD FAILED! try again" , Toast.LENGTH_SHORT).show()
+                }else{
+                    dialogBinding.image.setPadding(0)
+                    dialogBinding.image.setImageURI(data?.data!!)
                 }
-                dialogBinding.image.setPadding(0)
-                dialogBinding.image.setImageURI(data?.data!!)
             }
         }
     }
 
-    fun isPermissionsAllowed(): Boolean {
+    //GALLERY PERMISSIONS
+    private fun isPermissionsAllowed(): Boolean {
         return if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             false
         } else true
     }
-    fun askForPermissions(): Boolean {
+    private fun askForPermissions(): Boolean {
         if (!isPermissionsAllowed()) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this as Activity, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 showPermissionDeniedDialog()

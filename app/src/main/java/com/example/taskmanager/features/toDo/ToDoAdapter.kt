@@ -9,10 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.R
-import com.example.taskmanager.di.MyApp
+import com.example.taskmanager.di.AppModule
 import com.example.taskmanager.model.local.TaskModel
 
-class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEvent: ToDoEvent , private val picasso: MyApp.ImageLoaderService) : RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder>() {
+class ToDoAdapter(
+    private val data: ArrayList<TaskModel>,
+    private val toDoEvent: ToDoEvent,
+    private val imageLoader: AppModule.ImageLoaderService
+) : RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder>() {
 
     inner class ToDoViewHolder(itemView: View, private val context: Context) :
         RecyclerView.ViewHolder(itemView) {
@@ -31,15 +35,18 @@ class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEven
             date.text = data[position].date
             time.text = data[position].time
 
-            picasso.loadImage("http://private-app-key.ravanfix.com/app/apphelper/uploads/" + data[position].url  , image)
+            imageLoader.loadImage(
+                "http://private-app-key.ravanfix.com/app/apphelper/uploads/" + data[position].url,
+                image
+            )
 
             done.setOnClickListener {
                 data[position].state = "done"
-                toDoEvent.onDoneClick(data[position] , position)
+                toDoEvent.onDoneClick(data[position])
             }
 
             itemView.setOnClickListener {
-                toDoEvent.onClick(data[position] , position)
+                toDoEvent.onClick(data[position])
             }
 
             itemView.setOnLongClickListener {
@@ -64,36 +71,15 @@ class ToDoAdapter(private val data : ArrayList<TaskModel> , private val toDoEven
         return data.size
     }
 
-    fun addTask(newTask :TaskModel) {
-
-        data.add( 0 , newTask )
-        notifyItemInserted(0)
-
-    }
-
-    fun removeTask(oldTask :TaskModel , oldPosition :Int) {
-
-        data.remove(oldTask)
-        notifyItemRemoved(oldPosition)
-
-    }
-
-    fun updateTask(newTask :TaskModel , position :Int) {
-
-        data[position] = newTask
-        notifyItemChanged( position )
-
-    }
-
     fun refreshData(data: ArrayList<TaskModel>) {
         this.data.clear()
         this.data.addAll(data)
         notifyDataSetChanged()
     }
 
-    interface ToDoEvent{
-        fun onDoneClick(task: TaskModel , position: Int)
-        fun onClick(task: TaskModel , position: Int)
+    interface ToDoEvent {
+        fun onDoneClick(task: TaskModel)
+        fun onClick(task: TaskModel)
         fun onLongClick(task: TaskModel)
     }
 

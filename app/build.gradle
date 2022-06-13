@@ -62,7 +62,7 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
-    // lifeCycle =>
+    // lifeCycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
 
@@ -71,5 +71,8 @@ dependencies {
 
     //uploader
     implementation("com.squareup.okhttp3:okhttp:4.7.2")
+
+    //lottie
+    implementation "com.airbnb.android:lottie:5.2.0"
 
 }

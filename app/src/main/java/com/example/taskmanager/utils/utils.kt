@@ -5,7 +5,10 @@ import com.google.gson.JsonObject
 
 fun taskToJsonObject(task: TaskModel) :JsonObject {
 
+    //CLASS FOR CONVERT TASK TO JSON OBJECT
+
     val jsonObject = JsonObject()
+    jsonObject.addProperty("id", task.id)
     jsonObject.addProperty("title", task.title)
     jsonObject.addProperty("description", task.description)
     jsonObject.addProperty("url", task.url)

@@ -6,19 +6,19 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    @GET("/get_questions.php")
+    @GET("/task")
     suspend fun getAllTask(): List<TaskModel>
 
-    @POST("/task")
+    @POST("/task/insert")
     suspend fun insertTask(@Body body: JsonObject)
 
-    @PUT("/task/updating{name}")
-    suspend fun updateTask( @Path("name") id:Int , @Body body :JsonObject )
+    @PUT("/task/updating")
+    suspend fun updateTask( @Body body :JsonObject )
 
-    @DELETE("/task/deleting{name}")
-    suspend fun deleteTask( @Path("name") id:Int )
+    @DELETE("/task/deleting{id}")
+    suspend fun deleteTask( @Path("id") id:Int )
 
     @DELETE("/task/deleteAll")
-    suspend fun  deleteAllTask()
+    suspend fun deleteAllTask()
 
 }

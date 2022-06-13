@@ -31,5 +31,4 @@ class MyViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdap
         return 2
     }
 
-
 }

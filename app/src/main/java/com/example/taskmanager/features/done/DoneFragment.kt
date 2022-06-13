@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.R
 import com.example.taskmanager.databinding.FragmentDoneBinding
+import com.example.taskmanager.di.AppModule
 import com.example.taskmanager.di.MyApp
 import com.example.taskmanager.features.MainViewModel
 import com.example.taskmanager.features.toDo.ToDoAdapter
@@ -23,7 +24,7 @@ class DoneFragment : Fragment(), DoneAdapter.DoneEvent {
     lateinit var binding: FragmentDoneBinding
     private val mainViewModel by sharedViewModel<MainViewModel>()
     private lateinit var adapter: DoneAdapter
-    private val picasso: MyApp.ImageLoaderService by inject()
+    private val imageLoader: AppModule.ImageLoaderService by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +43,14 @@ class DoneFragment : Fragment(), DoneAdapter.DoneEvent {
 
     }
 
+    //UI
+    private fun initRecycler() {
+        val data = arrayListOf<TaskModel>()
+        adapter = DoneAdapter(data, this, imageLoader)
+        binding.recyclerDone.adapter = adapter
+        binding.recyclerDone.layoutManager =
+            LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+    }
     private fun getLiveTasks() {
         mainViewModel.getAllTasks().observe(viewLifecycleOwner) {
             val data: ArrayList<TaskModel> = it as ArrayList<TaskModel>
@@ -56,14 +65,7 @@ class DoneFragment : Fragment(), DoneAdapter.DoneEvent {
         }
     }
 
-    private fun initRecycler() {
-        val data = arrayListOf<TaskModel>()
-        adapter = DoneAdapter(data, this, picasso)
-        binding.recyclerDone.adapter = adapter
-        binding.recyclerDone.layoutManager =
-            LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-    }
-
+    //ITEMS EVENT
     override fun onLongClick(task: TaskModel) {
         lifecycleScope.launchWhenCreated {
             mainViewModel.deleteTask(task)

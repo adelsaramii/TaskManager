@@ -5,14 +5,18 @@ import androidx.room.*
 
 @Dao
 interface TaskDao {
+
     @Query("select * from taskTable")
     fun getAllTask(): LiveData<List<TaskModel>>
+
+    @Query("select * from taskTable where title = :title and description = :description and date = :date and time = :time and state =:state and url = :url")
+    fun getTask(title :String , description :String , date : String , time : String , state :String , url :String): TaskModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addTask(addTask: TaskModel)
 
-    @Query("UPDATE taskTable SET title =:updateTitle, description=:updateDescription , url=:updateUrl , date=:updateDate , time=:updateTime , state=:updateState where id=:id")
-    fun updateTask(id: Int, updateTitle: String, updateDescription: String , updateUrl:String ,  updateDate:String, updateTime:String , updateState:String)
+    @Update
+    fun updateTask(newTask : TaskModel)
 
     @Delete
     fun deleteTask(deleteTask: TaskModel)

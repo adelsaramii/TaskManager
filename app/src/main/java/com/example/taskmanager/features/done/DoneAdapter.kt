@@ -9,13 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskmanager.R
+import com.example.taskmanager.di.AppModule
 import com.example.taskmanager.di.MyApp
 import com.example.taskmanager.model.local.TaskModel
 
 class DoneAdapter(
     private val data: ArrayList<TaskModel>,
     private val doneEvent: DoneEvent,
-    private val picasso: MyApp.ImageLoaderService
+    private val imageLoader: AppModule.ImageLoaderService
 ) : RecyclerView.Adapter<DoneAdapter.DoneViewHolder>() {
 
     inner class DoneViewHolder(itemView: View, private val context: Context) :
@@ -34,7 +35,7 @@ class DoneAdapter(
             date.text = data[position].date
             time.text = data[position].time
 
-            picasso.loadImage(
+            imageLoader.loadImage(
                 "http://private-app-key.ravanfix.com/app/apphelper/uploads/" + data[position].url,
                 image
             )
